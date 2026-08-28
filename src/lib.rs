@@ -215,6 +215,14 @@ pub fn validate_policy(policy: &Policy) -> Result<(), String> {
                 ));
             }
         }
+        for pattern in &rule.matches.path {
+            if pattern.matches('*').count() > 1 {
+                errors.push(format!(
+                    "rule {:?} path {pattern:?} uses more than one * wildcard",
+                    rule.name
+                ));
+            }
+        }
     }
     let mut case_names = BTreeSet::new();
     for case in &policy.cases {

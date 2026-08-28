@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://proxy-policy-rehearsal.sociobot.in/sitemap.xml

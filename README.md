@@ -6,10 +6,10 @@ It never looks up live DNS, contacts an IP feed, starts a proxy, or sends teleme
 
 ## Install
 
-Download a release binary, or build the single binary with Go 1.23+:
+Download a release binary, or build the single binary with Rust 1.88+:
 
 ```sh
-go install github.com/B-Divyesh/sf-proxy-policy-rehearsal/cmd/ppr@latest
+cargo install --git https://github.com/B-Divyesh/sf-proxy-policy-rehearsal --bin ppr
 ```
 
 ## Usage

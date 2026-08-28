@@ -1,0 +1,26 @@
+{
+  "name": "proxy-policy-rehearsal",
+  "version": "0.1.0",
+  "description": "Rehearse reverse-proxy policy decisions locally",
+  "license": "MIT",
+  "private": true,
+  "files": ["src", "docs", "examples", "site", "Cargo.toml", "Cargo.lock", "README.md", "LICENSE", "CHANGELOG.md"],
+  "scripts": {
+    "dev": "vite --config site/vite.config.ts",
+    "test": "npm run test:cli && npm run test:site && npm run build:site && npm run test:e2e",
+    "test:cli": "cargo test --locked",
+    "test:site": "vitest run --config site/vite.config.ts",
+    "test:e2e": "playwright test",
+    "build": "npm run build:cli && npm run build:site",
+    "build:cli": "cargo build --release --locked && mkdir -p dist/bin && cp target/release/ppr dist/bin/ppr-linux-x86_64",
+    "build:site": "vite build --config site/vite.config.ts",
+    "preview": "vite preview --config site/vite.config.ts"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.10.2",
+    "@playwright/test": "1.58.2",
+    "typescript": "5.9.2",
+    "vite": "7.3.6",
+    "vitest": "3.2.7"
+  }
+}
