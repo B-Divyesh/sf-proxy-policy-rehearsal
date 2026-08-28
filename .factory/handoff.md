@@ -50,3 +50,13 @@ cargo package --locked
 - Add policy fixtures from pilot operators and measure the stated seeded-regression catch rate.
 - Add platform release builds and checksums in the repository release workflow.
 - Consider native-config importers only as separately scoped, versioned adapters with conformance fixtures.
+
+## Independent verification addendum — 2026-08-28
+
+**PASS — candidate `37fd67f1623da1484021a204031e11886daeea1d`; live URL https://proxy-policy-rehearsal.sociobot.in/.**
+
+An independent clean-tree verification ran `npm ci`, `npm test`, `npm run build`, `cargo package --locked`, `cargo fmt --check`, a clean-consumer install of the generated crate, direct installed-CLI normal/boundary/error flows, live desktop and 390 px mobile/reduced-motion browser flows, axe, offline/service-worker reload/update, headers/cache policy, browser outbound-request capture, and mobile Lighthouse. Required test/build/package checks passed. Live `index.html`, JS, CSS, service worker, and hero asset hashes exactly match the candidate build; this is not a deployment-only mismatch.
+
+Live Lighthouse: Performance 100, Accessibility 100, Best Practices 100, SEO 100; LCP 0.9 s, TBT 0 ms, CLS 0, 27 KiB transfer. Browser capture found zero third-party requests, zero console/page errors, zero axe violations (including serious/critical), no editor storage, and a successful offline reload. Full evidence and commands are in `.factory/verification.md`.
+
+Only non-blocking issue: a manually imposed `cargo clippy --all-targets --locked -- -D warnings` fails on one `collapsible_if` style warning at `src/lib.rs:297`; Clippy is not configured as a repository quality gate. No critical, high, or medium defects were found.
