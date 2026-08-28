@@ -1,0 +1,22 @@
+POLICY FORMAT (version 1)
+
+Required top-level keys: version, default, adapters. Optional: trusted_proxies,
+rules, cases. Actions are allow, challenge, or block. Rules run top-to-bottom;
+the first complete match wins, otherwise default applies.
+
+Matchers: client_ip (IP, CIDR, or dns:name), path (exact or one * wildcard),
+methods, and exact headers. Lists within one matcher are OR; matcher fields are
+AND. DNS answers must be supplied under each case's dns map. Live DNS is never
+queried.
+
+Adapters: anubis, caddy, nginx. Each declares forwarded_header as either
+X-Real-IP or X-Forwarded-For. A forwarded header is used only when remote_ip is
+inside trusted_proxies. X-Forwarded-For walks right-to-left to the first
+untrusted address.
+
+BOUNDARY
+
+This models the portable request-matching subset, not native configuration.
+It does not emulate rate limits, nested CEL, Caddy handler order, Nginx
+location precedence, regex engines, CAPTCHA behavior, or external DNS refresh.
+Unknown fields and unsupported modes are rejected instead of guessed.
