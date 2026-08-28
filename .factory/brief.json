@@ -1,0 +1,10 @@
+{
+  "slug": "proxy-policy-rehearsal",
+  "title": "Proxy Policy Rehearsal",
+  "artifact_class": "cli",
+  "user": "Self-hosted site operators protecting against abusive automated traffic who need to test reverse-proxy challenge, allowlist, and forwarding rules safely before real users or internal monitors are blocked.",
+  "smallest_useful_product": "A CLI that loads a declarative proxy-policy test file, mocks DNS and request headers, runs selected Anubis/Caddy/Nginx-compatible rule adapters, and emits a readable decision matrix.",
+  "success_measure": "Before deployment, pilot users catch 90% of seeded monitor/localhost/forwarded-IP policy regressions using the test matrix.",
+  "constraints": "No scraping or bypass features; mock DNS only by default; never collect IP intelligence; adapters must faithfully document unsupported policy semantics.",
+  "monetization": "free"
+}
