@@ -6,6 +6,17 @@ license = "MIT"
 description = "Rehearse reverse-proxy allow, challenge, and block policy locally"
 repository = "https://github.com/B-Divyesh/sf-proxy-policy-rehearsal"
 readme = "README.md"
+include = [
+  "/src/**",
+  "/tests/**",
+  "/docs/**",
+  "/examples/**",
+  "/Cargo.toml",
+  "/Cargo.lock",
+  "/README.md",
+  "/LICENSE",
+  "/CHANGELOG.md"
+]
 
 [[bin]]
 name = "ppr"

@@ -1,0 +1,21 @@
+{
+  "routes": [
+    {
+      "route": "/assets/*",
+      "headers": {
+        "cache-control": "public, max-age=31536000, immutable"
+      }
+    },
+    {
+      "route": "/ceramic-proxy-gates.webp",
+      "headers": {
+        "cache-control": "public, max-age=86400"
+      }
+    }
+  ],
+  "globalHeaders": {
+    "content-security-policy": "default-src 'self'; img-src 'self'; script-src 'self'; style-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'",
+    "referrer-policy": "strict-origin-when-cross-origin",
+    "x-content-type-options": "nosniff"
+  }
+}

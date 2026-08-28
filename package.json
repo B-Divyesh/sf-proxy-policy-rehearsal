@@ -4,7 +4,7 @@
   "description": "Rehearse reverse-proxy policy decisions locally",
   "license": "MIT",
   "private": true,
-  "files": ["src", "docs", "examples", "site", "Cargo.toml", "Cargo.lock", "README.md", "LICENSE", "CHANGELOG.md"],
+  "files": ["src", "docs", "examples", "Cargo.toml", "Cargo.lock", "README.md", "LICENSE", "CHANGELOG.md"],
   "scripts": {
     "dev": "vite --config site/vite.config.ts",
     "test": "npm run test:cli && npm run test:site && npm run build:site && npm run test:e2e",

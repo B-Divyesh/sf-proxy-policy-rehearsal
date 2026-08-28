@@ -85,12 +85,12 @@ npm test
 npm run build
 ```
 
-`npm test` runs Go unit/integration tests and the browser site's tests. `npm run build` compiles release binaries into `dist/bin/` and the static site into `dist/site/`. Preview the landing page with `npm run preview`.
+`npm test` runs Rust unit/integration tests and the browser site's tests. `npm run build` compiles the release binary into `dist/bin/` and the static site into `dist/site/`. Preview the landing page with `npm run preview`.
 
-To produce the publishable source archive without registry credentials:
+To verify and produce the publishable crate without registry credentials:
 
 ```sh
-npm pack
+cargo package --locked
 ```
 
 ## Privacy and security
