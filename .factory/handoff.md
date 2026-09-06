@@ -51,6 +51,23 @@ cargo package --locked
 - Add platform release builds and checksums in the repository release workflow.
 - Consider native-config importers only as separately scoped, versioned adapters with conformance fixtures.
 
+## Review 1 — 2026-09-06
+
+**FAIL — implementation `37fd67f1623da1484021a204031e11886daeea1d`; documentation `fa21bf69da79d5e05ed7741c3de388a5858f4e9b`.**
+
+This reviewer did not modify product code. The current implementation and live
+runtime were checked again; the live runtime matches a local candidate build.
+The documented setup, test suite, build, crate package, formatting check, and
+clean installed CLI normal/invalid paths passed. The earlier Clippy warning is
+still reproducible.
+
+Acceptance is blocked by seven findings and eight untested public claim groups:
+the required browser and CLI demo is absent, `.factory/claims.json` is absent,
+the first screen does not plainly name job/audience/first action, `/demo` and
+`/404` are generic host errors, required metadata/site structure is incomplete,
+the copy audit is absent with metaphor copy remaining, and Clippy still fails.
+See `.factory/review-1.md` for full evidence and repairs.
+
 ## Independent verification addendum — 2026-08-28
 
 **PASS — candidate `37fd67f1623da1484021a204031e11886daeea1d`; live URL https://proxy-policy-rehearsal.sociobot.in/.**
