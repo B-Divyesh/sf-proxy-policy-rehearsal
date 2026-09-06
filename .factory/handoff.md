@@ -1,5 +1,18 @@
 # Handoff — Proxy Policy Rehearsal v0.1.1
 
+## Independent verification 3 — FAIL
+
+Verification on 2026-09-06 reviewed implementation `15206cf62a17b1a07898ff325d29f8745b5a2b1b`, documentation `6bdb393b662232f4837298a531a57b9c9fc3e547`, and the live site. The deployed runtime matches the implementation candidate byte-for-byte for the main HTML, demo HTML, service worker, hero, JavaScript, and CSS.
+
+Four findings remain, so this candidate is not accepted:
+
+- `ppr test` exits 0 for a fixture with zero cases and reports zero decisions.
+- Eight public claim groups lack complete registered outcome tests.
+- README says `ppr help format` shows the full format guide, but the working command is `ppr format`.
+- The phone wordmark is 142 × 38 px and the Demo navigation target is 39 × 44 px, below the 44 × 44 px baseline.
+
+All nine declared claim commands pass. The clean build, 26 browser checks, package, formatting, strict Clippy, installed CLI paths, live desktop/phone demo, offline update, zero-violation Axe scans, route crawl, security headers, and Lighthouse 100/100/100/100 also pass. Full evidence and required dispositions are in [`.factory/verification-3.md`](verification-3.md). Evidence files are under `/work/.evidence/ppr-verify-3/`.
+
 ## Release identity
 
 - **Implementation candidate:** `15206cf62a17b1a07898ff325d29f8745b5a2b1b`
