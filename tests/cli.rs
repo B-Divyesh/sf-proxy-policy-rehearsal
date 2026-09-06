@@ -66,3 +66,20 @@ fn invalid_policy_exits_two_with_repair() {
         .stderr(predicate::str::contains("version must be 1"))
         .stderr(predicate::str::contains("at least one adapter"));
 }
+
+#[test]
+fn bundled_demo_writes_only_a_temporary_sample_and_rehearses_it() {
+    Command::cargo_bin("ppr")
+        .unwrap()
+        .arg("demo")
+        .assert()
+        .success()
+        .stdout(predicate::str::contains(
+            "bundled sample data in a temporary directory",
+        ))
+        .stdout(predicate::str::contains("monitor-policy.yaml"))
+        .stdout(predicate::str::contains(
+            "Your policy files are not changed.",
+        ))
+        .stdout(predicate::str::contains("9 passed · 0 failed"));
+}

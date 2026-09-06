@@ -12,8 +12,10 @@ export default defineConfig({
     rollupOptions: {
       input: {
         index: resolve(__dirname, 'index.html'),
+        'demo/index': resolve(__dirname, 'demo/index.html'),
         'privacy/index': resolve(__dirname, 'privacy/index.html'),
-        'terms/index': resolve(__dirname, 'terms/index.html')
+        'terms/index': resolve(__dirname, 'terms/index.html'),
+        '404': resolve(__dirname, '404.html')
       }
     }
   },

@@ -1,0 +1,1 @@
+Test proxy rules with safe sample requests before you change a self-hosted reverse proxy.

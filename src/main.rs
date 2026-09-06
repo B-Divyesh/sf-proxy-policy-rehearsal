@@ -18,6 +18,8 @@ struct Cli {
 enum Command {
     /// Run policy cases and compare expected decisions
     Test(TestArgs),
+    /// Run the bundled monitor-policy sample in an isolated temporary directory
+    Demo(DemoArgs),
     /// Parse and validate a policy without running it
     Validate { file: PathBuf },
     /// Show the supported file format and emulation boundary
@@ -35,6 +37,13 @@ struct TestArgs {
     #[arg(long = "case")]
     case_filter: Option<String>,
     /// Emit stable JSON for CI and scripts
+    #[arg(long)]
+    json: bool,
+}
+
+#[derive(Args)]
+struct DemoArgs {
+    /// Emit the sample result as stable JSON
     #[arg(long)]
     json: bool,
 }
@@ -66,6 +75,22 @@ fn execute(cli: Cli) -> Result<i32, String> {
             println!("{}", include_str!("../docs/format.txt"));
             Ok(0)
         }
+        Command::Demo(args) => {
+            let (fixture_path, policy) = write_demo_fixture()?;
+            let report = run(&policy, fixture_path.display().to_string(), &[], None)?;
+            if args.json {
+                println!(
+                    "{}",
+                    serde_json::to_string_pretty(&report).map_err(|e| e.to_string())?
+                );
+            } else {
+                println!("Demo uses bundled sample data in a temporary directory.");
+                println!("Sample fixture: {}", fixture_path.display());
+                println!("Your policy files are not changed.\n");
+                print_report(&report);
+            }
+            Ok(if report.summary.failed > 0 { 1 } else { 0 })
+        }
         Command::Test(args) => {
             let policy = load_policy(&args.file)?;
             let report = run(
@@ -85,6 +110,31 @@ fn execute(cli: Cli) -> Result<i32, String> {
             Ok(if report.summary.failed > 0 { 1 } else { 0 })
         }
     }
+}
+
+fn write_demo_fixture() -> Result<(PathBuf, proxy_policy_rehearsal::Policy), String> {
+    let sample = include_str!("../examples/monitor-policy.yaml");
+    let base = std::env::temp_dir();
+    let nonce = std::time::SystemTime::now()
+        .duration_since(std::time::UNIX_EPOCH)
+        .map_err(|error| format!("cannot create demo directory: {error}"))?
+        .as_nanos();
+    let directory = base.join(format!("ppr-demo-{}-{nonce}", std::process::id()));
+    std::fs::create_dir(&directory).map_err(|error| {
+        format!(
+            "cannot create demo directory {}: {error}",
+            directory.display()
+        )
+    })?;
+    let fixture_path = directory.join("monitor-policy.yaml");
+    std::fs::write(&fixture_path, sample).map_err(|error| {
+        format!(
+            "cannot write demo fixture {}: {error}",
+            fixture_path.display()
+        )
+    })?;
+    let policy = load_policy(&fixture_path)?;
+    Ok((fixture_path, policy))
 }
 
 fn print_report(report: &Report) {

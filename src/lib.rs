@@ -294,10 +294,10 @@ pub fn run(
         .iter()
         .filter(|case| case_filter.is_none_or(|needle| case.name.contains(needle)))
         .collect();
-    if let Some(filter) = case_filter {
-        if cases.is_empty() {
-            return Err(format!("no cases match {filter:?}"));
-        }
+    if let Some(filter) = case_filter
+        && cases.is_empty()
+    {
+        return Err(format!("no cases match {filter:?}"));
     }
     let trusted = parse_networks(&policy.trusted_proxies)?;
     let mut rows = Vec::new();

@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f7f9f8" />
+    <meta name="description" content="Run a safe sample of reverse-proxy policy checks in your browser." />
+    <link rel="canonical" href="https://proxy-policy-rehearsal.sociobot.in/demo/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://proxy-policy-rehearsal.sociobot.in/demo/" />
+    <meta property="og:title" content="Demo — Proxy Policy Rehearsal" />
+    <meta property="og:description" content="Run a safe sample of reverse-proxy policy checks in your browser." />
+    <meta property="og:image" content="https://proxy-policy-rehearsal.sociobot.in/social-card.webp" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Demo — Proxy Policy Rehearsal" />
+    <meta name="twitter:description" content="Run a safe sample of reverse-proxy policy checks in your browser." />
+    <meta name="twitter:image" content="https://proxy-policy-rehearsal.sociobot.in/social-card.webp" />
+    <title>Demo — Proxy Policy Rehearsal</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  </head>
+  <body data-demo-default="true">
+    <a class="skip-link" href="#main">Skip to main content</a>
+    <header class="site-header">
+      <a class="wordmark" href="/" aria-label="Proxy Policy Rehearsal home">
+        <span class="mark" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span>Proxy Policy<br />Rehearsal</span>
+      </a>
+      <nav aria-label="Primary navigation">
+        <a href="/demo/" aria-current="page">Demo</a>
+        <a href="/#how-it-works">How it works</a>
+        <a href="/privacy/">Privacy</a>
+        <a href="https://github.com/B-Divyesh/sf-proxy-policy-rehearsal">Source <span aria-hidden="true">↗</span></a>
+      </nav>
+      <p class="network" id="network-status"><span aria-hidden="true"></span> Offline-ready</p>
+    </header>
+
+    <main class="demo-main" id="main">
+      <section class="demo-intro" aria-labelledby="demo-title">
+        <p class="eyebrow">Browser sample</p>
+        <h1 id="demo-title">Test the sample proxy policy</h1>
+        <p class="lede">See trusted monitor, spoofed header, and admin request decisions across three adapters.</p>
+      </section>
+      <section class="demo-banner" id="demo-banner" aria-label="Demo controls">
+        <p><strong>Demo</strong> — sample data, nothing is saved</p>
+        <div><button class="quiet-button" id="demo-reset-button" type="button">Reset demo</button><button class="button small-button" id="start-real-button" type="button">Start for real</button></div>
+      </section>
+      <section class="demo-workbench" aria-labelledby="workbench-title">
+        <h2 id="workbench-title" class="visually-hidden">Sample decision results</h2>
+        <div class="workbench">
+          <div class="editor-pane">
+            <div class="pane-heading">
+              <label for="policy-input">Sample fixture (JSON)</label>
+              <button class="quiet-button" id="reset-button" type="button">Reset demo</button>
+            </div>
+            <textarea id="policy-input" spellcheck="false" aria-describedby="editor-help"></textarea>
+            <p class="field-help" id="editor-help">This sample uses the <code>demo:ppr:fixture</code> browser namespace. Press <kbd>Ctrl</kbd> + <kbd>Enter</kbd> to run.</p>
+            <button class="button run-button" id="run-button" type="button"><span aria-hidden="true">▶</span> Run rehearsal</button>
+          </div>
+          <div class="result-pane" aria-labelledby="result-title">
+            <div class="pane-heading">
+              <h3 id="result-title">Decision results</h3>
+              <span class="result-count" id="result-count">Ready</span>
+            </div>
+            <div id="error-message" class="error-message" role="alert" hidden></div>
+            <div class="empty-state" id="empty-state">
+              <span class="empty-gate" aria-hidden="true"></span>
+              <p>Your decision results appear here.</p>
+              <small>Run the sample to compare each adapter.</small>
+            </div>
+            <div id="result-table-wrap" hidden>
+              <table>
+                <thead><tr><th>Case</th><th>Adapter</th><th>Client</th><th>Decision</th><th>Check</th></tr></thead>
+                <tbody id="result-rows"></tbody>
+              </table>
+              <div class="explanation" id="explanation" aria-live="polite"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>Local proxy policy tests for self-hosted operators <span>·</span> v0.1.1</p>
+      <nav aria-label="Legal"><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a><span class="footer-factory">Built by Param Factory</span></nav>
+    </footer>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

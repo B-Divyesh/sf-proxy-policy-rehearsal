@@ -37,4 +37,7 @@ Only state change moves: the hero bead drifts once through its gates on first vi
 ## Original asset plan and provenance
 
 - `site/public/ceramic-proxy-gates.webp`: original AI-generated still life used as the explanatory hero. Prompt: “Editorial product still life for a developer tool: three thin hand-built porcelain gates arranged in a precise sequence on translucent blue-white ice, one small deep-cobalt ceramic bead traveling through aligned openings, subtle ruler incisions and hairline shadows, glacial minimal ceramics, matte mineral textures, cool daylight, generous pale negative space, no people, no lettering, no logos, no UI, landscape 3:2.” Generated for this product with the factory image generator (`/opt/fleet/lib/gen-image.sh`, 2026-08-28), then locally converted to WebP. Original asset; project use under the repository MIT license.
+- `site/public/social-card.webp`: a 1200×630 crop composed locally from the original ceramic hero with ImageMagick on 2026-09-06. It keeps the same porcelain gates and cobalt bead for social previews without adding text or a stock asset.
+- `site/public/apple-touch-icon.png`: a local 180×180 crop of the same original ceramic hero, composed with ImageMagick on 2026-09-06.
+- `site/public/favicon.svg`: hand-authored proxy-gate geometry in the site palette. It is an original project asset, not an icon-library asset.
 - All interface glyphs are hand-authored CSS geometry or plain text. No stock imagery, icon package, or third-party runtime asset is used.

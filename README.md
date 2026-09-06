@@ -1,41 +1,57 @@
 # Proxy Policy Rehearsal
 
-`ppr` is a local, deterministic test runner for reverse-proxy policy changes. It helps self-hosted operators catch broken monitor allowlists, localhost assumptions, and spoofable forwarded-IP rules before deploying Anubis-, Caddy-, or Nginx-facing policy.
+Test proxy rules before deployment. `ppr` is for self-hosted operators who need to check monitor allowlists, forwarded-IP trust, and block rules before real visitors are affected.
 
-It never looks up live DNS, contacts an IP feed, starts a proxy, or sends telemetry. Every request, forwarded header, and DNS answer comes from the test file.
+It reads YAML or JSON fixture files and compares synthetic requests against the documented Anubis, Caddy, and Nginx matcher subset. Each fixture supplies its own mock DNS answers. The CLI reads fixture file paths, does not start a proxy service, and has no remote URL input.
+
+## Try the sample
+
+Open the browser sandbox at [proxy-policy-rehearsal.sociobot.in/demo/](https://proxy-policy-rehearsal.sociobot.in/demo/). It loads nine monitor and forwarded-IP decisions at once.
+
+The Demo banner marks the sample clearly. Demo edits use the `demo:ppr:fixture` browser namespace. Reset demo restores the bundled fixture. Start for real discards that demo namespace. The browser sample works offline after its first visit and makes same-origin GET requests only.
+
+Run the matching CLI sample from the bundled `ppr` binary:
+
+```sh
+ppr demo
+```
+
+The command copies `examples/monitor-policy.yaml` to a temporary directory, prints that location, and runs the matrix there. It does not change policy files you already have.
 
 ## Install
 
-Download a release binary, or build the single binary with Rust 1.88+:
+Build the single binary with Rust 1.88 or newer:
 
 ```sh
 cargo install --git https://github.com/B-Divyesh/sf-proxy-policy-rehearsal --bin ppr
 ```
 
-## Usage
+The sample and free core do not require an account.
 
-Copy [`examples/monitor-policy.yaml`](examples/monitor-policy.yaml), then run all cases against all declared adapters:
+## Use your fixture
+
+Copy [`examples/monitor-policy.yaml`](examples/monitor-policy.yaml), then run every case against each declared adapter:
 
 ```sh
 ppr test examples/monitor-policy.yaml
 ```
 
-Select adapters or cases and emit stable machine output:
+Filter adapters or cases and emit stable JSON for scripts:
 
 ```sh
 ppr test policy.yaml --adapter caddy,nginx --case monitor-via-proxy
 ppr test policy.yaml --json > rehearsal.json
 ```
 
-Validate without running cases:
+Validate a fixture without running it:
 
 ```sh
 ppr validate policy.yaml
 ```
 
-Exit codes are `0` when every selected expectation passes, `1` when a decision differs, and `2` for invalid input or CLI usage. `ppr help format` documents the file format and adapter boundaries.
+Exit code `0` means every selected expectation passed. Exit code `1` means a decision differs. Exit code `2` means invalid input or CLI usage. `ppr help format` describes the supported fixture format and adapter boundaries.
 
-### Policy shape
+### Fixture shape
 
 ```yaml
 version: 1
@@ -69,34 +85,41 @@ cases:
       nginx: allow
 ```
 
-Rules are evaluated top-to-bottom; the first complete match decides. Values in one matcher are OR-ed, while different matcher fields are AND-ed. Supported matchers are exact IP/CIDR or `dns:name` client IP, exact/glob path, method, and exact request headers. DNS names resolve only from each case's `dns` map.
+Rules run top to bottom. The first complete match decides. Values within one matcher are alternatives. Different matcher fields must all match. The supported matchers are exact IP or CIDR, `dns:name`, exact or one-star path globs, methods, and exact request headers.
 
-Forwarded client addresses are trusted only when the immediate peer matches `trusted_proxies`. X-Forwarded-For chains are walked right-to-left past trusted hops; otherwise the direct peer wins. This intentionally rehearses the trust boundary rather than blindly accepting a header.
+Forwarded client addresses count only when the immediate peer matches `trusted_proxies`. X-Forwarded-For chains are read from right to left past trusted hops. A direct peer can never make its own forwarded header trusted.
 
-## Adapter boundary
+## Supported boundaries
 
-The adapters reproduce the shared request-matching subset operators commonly express in Anubis CEL policy, Caddy request matchers, and Nginx `real_ip` plus `geo`/`map` rules. They do not parse native config and do not claim to emulate rate limits, nested CEL, Caddy handler order, Nginx location precedence, regex engines, or external DNS refresh. `ppr` reports unsupported adapter names and header modes as validation errors instead of guessing.
+`ppr` checks the request-matching subset shared by common Anubis CEL policies, Caddy request matchers, and Nginx `real_ip` with `geo` or `map` rules. It does not parse native configurations. It does not model rate limits, nested CEL, Caddy handler order, Nginx location precedence, regex engines, plugins, CAPTCHA behavior, or external DNS refresh.
 
-## Develop and verify
+It does not query live DNS or IP-intelligence feeds. It does not start, operate, or inspect a production proxy. The hosted site includes no analytics, trackers, third-party runtime services, or font CDN.
+
+## Develop, test, and deploy
 
 ```sh
 npm ci
 npm test
 npm run build
+cargo package --locked
+cargo fmt --check
+cargo clippy --all-targets --locked -- -D warnings
 ```
 
-`npm test` runs Rust unit/integration tests and the browser site's tests. `npm run build` compiles the release binary into `dist/bin/` and the static site into `dist/site/`. Preview the landing page with `npm run preview`.
+Run every public claim from a clean setup with the commands listed in [.factory/claims.json](.factory/claims.json). For example:
 
-To verify and produce the publishable crate without registry credentials:
+```sh
+npm run test:claims -- --grep @claim:sample-demo --project=desktop
+```
+
+`npm run build` writes the release executable to `dist/bin/ppr-linux-x86_64` and the static site to `dist/site/`. Preview the site with `npm run preview`. Deploy `dist/site/` with the product’s durable static-host configuration, including `staticwebapp.config.json`.
+
+The crate is ready to publish but is not published by this repository worker:
 
 ```sh
 cargo package --locked
 ```
 
-## Privacy and security
+## Privacy and license
 
-The CLI is offline and accepts only synthetic inputs. The browser demo runs in-page and does not upload or persist its editor contents. See the site privacy and terms pages for the hosted documentation.
-
-## License
-
-MIT. See [LICENSE](LICENSE).
+Read the hosted [Privacy](https://proxy-policy-rehearsal.sociobot.in/privacy/) and [Terms](https://proxy-policy-rehearsal.sociobot.in/terms/) pages. This project is MIT licensed; see [LICENSE](LICENSE).

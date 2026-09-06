@@ -1,0 +1,65 @@
+[
+  {
+    "id": "sample-demo",
+    "claim": "Loads nine sample policy decisions in one click.",
+    "where": "Landing primary action and Demo page",
+    "test": "npm run test:claims -- --grep @claim:sample-demo --project=desktop",
+    "sandbox": "Fresh browser context opens /demo/; assert the labelled sample renders nine passing decisions, then Reset demo restores it."
+  },
+  {
+    "id": "mock-dns",
+    "claim": "Uses mock DNS answers from the fixture.",
+    "where": "How it works and README",
+    "test": "npm run test:claims -- --grep @claim:mock-dns --project=desktop",
+    "sandbox": "Fresh /demo/ fixture changes the mock monitor address; the observable matrix changes to three regressions and reset restores nine passes."
+  },
+  {
+    "id": "local-browser-matrix",
+    "claim": "The browser sample calculates its matrix locally with no third-party request or data upload.",
+    "where": "Landing fact, footer, and Privacy",
+    "test": "npm run test:claims -- --grep @claim:local-browser-matrix --project=desktop",
+    "sandbox": "Record every browser request from fresh /demo/ load through a sample run; assert same-origin GET requests only while the populated matrix appears."
+  },
+  {
+    "id": "offline-reload",
+    "claim": "Works offline after the first visit.",
+    "where": "Landing fact and README",
+    "test": "npm run test:claims -- --grep @claim:offline-reload --project=desktop",
+    "sandbox": "A dedicated browser context visits /demo/, waits for its service worker, switches offline, reloads, and retains the populated sample."
+  },
+  {
+    "id": "demo-isolation",
+    "claim": "Demo changes never touch real data.",
+    "where": "Demo banner and Privacy",
+    "test": "npm run test:claims -- --grep @claim:demo-isolation --project=desktop",
+    "sandbox": "Seed a real namespace, edit demo data, then Start for real; assert real data is unchanged and demo:ppr:fixture is removed."
+  },
+  {
+    "id": "free-core",
+    "claim": "The sample and free core run without an account.",
+    "where": "Landing facts and README",
+    "test": "npm run test:claims -- --grep @claim:free-core --project=desktop",
+    "sandbox": "Fresh /demo/ runs its full sample and exposes the editable fixture without an account or sign-in step."
+  },
+  {
+    "id": "one-binary",
+    "claim": "The ppr binary runs the bundled sample demo.",
+    "where": "CLI section and README",
+    "test": "npm run test:claims -- --grep @claim:one-binary --project=desktop",
+    "sandbox": "Run the built public executable with demo; assert it creates a temporary bundled fixture and emits the 9/9 matrix."
+  },
+  {
+    "id": "fixture-files-only",
+    "claim": "The CLI reads fixture file paths instead of remote URLs.",
+    "where": "Privacy and README",
+    "test": "npm run test:claims -- --grep @claim:fixture-files-only --project=desktop",
+    "sandbox": "Run ppr test with a remote-looking path and assert it reports an unreadable local file rather than fetching it."
+  },
+  {
+    "id": "no-proxy-service",
+    "claim": "The CLI does not start or operate a proxy service.",
+    "where": "What this tool does not do and Terms",
+    "test": "npm run test:claims -- --grep @claim:no-proxy-service --project=desktop",
+    "sandbox": "Run the public executable with a server command and assert its interface rejects the command."
+  }
+]
